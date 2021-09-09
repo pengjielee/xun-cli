@@ -1,6 +1,6 @@
 {
   "name": "xun-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "一个Nodejs命令行工具",
   "main": "index.js",
   "bin": {
@@ -8,7 +8,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pretty": "prettier --write index.js"
+    "show:ip": "node index.js ip",
+    "show:date": "node index.js date",
+    "show:weather": "node index.js weather",
+    "show:hot": "node index.js hot",
+    "init:git": "node index.js git",
+    "init:prettier": "node index.js prettier",
+    "prettier": "prettier --write index.js"
   },
   "keywords": [
     "cli",
@@ -26,6 +32,10 @@
     "yargs": "^16.0.3"
   },
   "devDependencies": {
+    "fs-extra": "^10.0.0",
     "prettier": "2.2.1"
-  }
+  },
+  "files": [
+    "index.js"
+  ]
 }

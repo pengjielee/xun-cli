@@ -7,6 +7,56 @@ const shell = require('shelljs');
 const fetch = require('node-fetch');
 const dayjs = require('dayjs');
 const inquirer = require('inquirer');
+const fs = require('fs-extra');
+const path = require('path');
+
+const gitignoreContent = `# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+`;
+
+const prettierContent = `module.exports = {
+  printWidth: 100, // 一行最大多少字符
+  tabWidth: 2, // tab占用的字符数
+  useTabs: false, // 是否使用tab代替空格
+  semi: true, // 是否每句后都加分号
+  singleQuote: true, // 是否使用单引号
+  trailingComma: 'all', // 数组尾逗号。
+  bracketSpacing: true, // {foo: xx}还是{ foo: xx }
+  jsxBracketSameLine: false,
+  arrowParens: 'avoid', //剪头函数参数是否使用（）
+  endOfLine: 'auto',
+  overrides: [
+    {
+      files: '*.html',
+      options: {
+        parser: 'html',
+        htmlWhitespaceSensitivity: 'ignore',
+      },
+    },
+  ],
+};
+`;
 
 // 输出一个漂亮的LOGO
 console.log(
@@ -38,7 +88,9 @@ const getWeatherInfo = async (city) => {
     if (data.code === '200') {
       const now = data.now;
       console.log(
-        `${cityName}: ${now.text}，${now.temp}摄氏度，${now.windDir}`
+        chalk.green(
+          `\r\n${cityName}: ${now.text}，${now.temp}摄氏度，${now.windDir}\r\n`
+        )
       );
     } else {
       console.log(`Ops, something error!`);
@@ -58,7 +110,7 @@ yargs
     (yargs) => {},
     function (argv) {
       const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
-      console.log(`当前日期： ${date}`);
+      console.log(chalk.green(`\r\n当前日期： ${date}\r\n`));
     }
   )
   .command(
@@ -113,7 +165,36 @@ yargs
         "ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6 | awk '{print $2}' | tr -d 'addr:'",
         { silent: true }
       ).stdout;
-      console.log(`本机IP：${ip_address}`);
+      console.log(chalk.green(`本机IP：\r\n${ip_address}`));
+    }
+  )
+  .command(
+    'git',
+    '创建git忽略文件',
+    (yargs) => {},
+    function (argv) {
+      const distPath = path.join(__dirname, '.gitignore');
+      const result = fs.writeFile(distPath, gitignoreContent, (err) => {
+        if (err) {
+          console.log(chalk.red('创建.gitignore文件失败'));
+        }
+        console.log(chalk.green(`创建.gitignore文件成功`));
+      });
+    }
+  )
+  .command(
+    'prettier',
+    '创建prettier配置文件',
+    (yargs) => {},
+    function (argv) {
+      const distPath = path.join(__dirname, '.prettierrc.js');
+      // fs.writeFileSync(distPath, prettierContent);
+      const result = fs.writeFile(distPath, gitignoreContent, (err) => {
+        if (err) {
+          console.log(chalk.red('创建.prettierrc.js文件失败'));
+        }
+        console.log(chalk.green('创建.prettierrc.js文件成功'));
+      });
     }
   )
   .help().argv;
