@@ -173,7 +173,8 @@ yargs
     '创建git忽略文件',
     (yargs) => {},
     function (argv) {
-      const distPath = path.join(__dirname, '.gitignore');
+      const distPath = path.join(process.cwd(), '.gitignore');
+      console.log(distPath);
       const result = fs.writeFile(distPath, gitignoreContent, (err) => {
         if (err) {
           console.log(chalk.red('创建.gitignore文件失败'));
@@ -187,7 +188,7 @@ yargs
     '创建prettier配置文件',
     (yargs) => {},
     function (argv) {
-      const distPath = path.join(__dirname, '.prettierrc.js');
+      const distPath = path.join(process.cwd(), '.prettierrc.js');
       // fs.writeFileSync(distPath, prettierContent);
       const result = fs.writeFile(distPath, gitignoreContent, (err) => {
         if (err) {
