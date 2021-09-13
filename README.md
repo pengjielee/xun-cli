@@ -54,6 +54,6 @@ $ xun-cli git
 
 7. 创建.prettierrc.js文件
  
-```
+```bash
 $ xun-cli prettier
 ```
