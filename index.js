@@ -9,6 +9,8 @@ const dayjs = require('dayjs');
 const inquirer = require('inquirer');
 const fs = require('fs-extra');
 const path = require('path');
+const serve = require('koa-static');
+const Koa = require('koa');
 
 const gitignoreContent = `# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -196,6 +198,24 @@ yargs
         }
         console.log(chalk.green('创建.prettierrc.js文件成功'));
       });
+    }
+  )
+  .command(
+    'serve [port]',
+    'serve a static site',
+    (yargs) => {
+      yargs.positional('port', {
+        type: 'string',
+        default: 5000,
+        describe: '绑定的端口',
+      });
+    },
+    function (argv) {
+      const port = argv.port;
+      const app = new Koa();
+      app.use(serve(path.resolve(process.cwd())));
+      app.listen(port);
+      console.log(`listening on port ${port}`);
     }
   )
   .help().argv;

@@ -6,7 +6,7 @@
 $ npm install -g xun-cli
 ```
 
-## 使用 
+## 使用
 
 1. 查看日期
 
@@ -56,4 +56,11 @@ $ xun-cli git
  
 ```bash
 $ xun-cli prettier
+```
+
+8. Serve a static site
+
+```bash
+$ xun-cli serve
+$ xun-cli serve 3000
 ```
