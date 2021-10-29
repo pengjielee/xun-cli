@@ -192,7 +192,7 @@ yargs
     function (argv) {
       const distPath = path.join(process.cwd(), '.prettierrc.js');
       // fs.writeFileSync(distPath, prettierContent);
-      const result = fs.writeFile(distPath, gitignoreContent, (err) => {
+      const result = fs.writeFile(distPath, prettierContent, (err) => {
         if (err) {
           console.log(chalk.red('创建.prettierrc.js文件失败'));
         }
